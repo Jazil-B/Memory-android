@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+
+    <com.example.alyss.memory.JeuView
+        android:id="@+id/JeuView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ProgressBar
+        android:id="@+id/pBAsync"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:max="60"
+        android:progress="60"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="UnknownId"
+        android:layout_margin="10dp"
+        android:progressBackgroundTint="#5cffffff"
+        android:indeterminate="false"
+        android:progressTint="#4b6ad8" />
+
+
+
+
+</FrameLayout>
