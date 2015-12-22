@@ -3,6 +3,8 @@ package com.example.alyss.memory;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
@@ -76,6 +78,17 @@ public class MainActivity extends Activity {
 
     }
 
+    @Override protected void onPause() {
+        super.onPause();
+        backgroundMusic.pause();
+       // mView.onPause();
+    }
 
+    @Override protected void onResume() {
+        super.onResume();
+        backgroundMusic.start();
+       // mView.onResume();
+
+    }
 
 }
