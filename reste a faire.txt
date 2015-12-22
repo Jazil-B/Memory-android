@@ -1,6 +1,6 @@
--Sauvegarde
--Refaire systeme de fin de jeu
--preference score
--fix bug de réinitialisation pour rejouer
--Mettre en pause le timer quand on est pas sur le jeu
--faire en sorte que la musique continue après la première vue
+-Sauvegarde                                                                 |
+-Refaire systeme de fin de jeu                                              |
+-preference score                                                           |
+-fix bug de réinitialisation pour rejouer                                   |
+-Mettre en pause le timer quand on est pas sur le jeu                       |       V
+-faire en sorte que la musique continue après la première vue               |

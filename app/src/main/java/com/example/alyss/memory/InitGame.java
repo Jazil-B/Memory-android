@@ -84,12 +84,15 @@ public class InitGame extends AppCompatActivity implements Runnable {
             block_tmp = 1;
             return block_tmp;
         }
+        block_tmp = block;
+
         return block_tmp;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        block(1);
         //  backgroundMusic.pause();
         // mView.onPause();
 
@@ -98,6 +101,11 @@ public class InitGame extends AppCompatActivity implements Runnable {
     @Override
     protected void onResume() {
         super.onResume();
+        if (block_tmp == 1) {
+            block(0);
+            launch();
+        }
+
         // backgroundMusic.start();
         // mView.onResume();
 
