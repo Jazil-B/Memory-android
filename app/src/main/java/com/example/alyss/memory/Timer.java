@@ -8,40 +8,33 @@ import android.widget.ProgressBar;
 /**
  * Created by jazz on 16/11/15.
  */
-public class InitGame extends AppCompatActivity implements Runnable {
+
+public class Timer  implements Runnable {
 
 
-    public JeuView mjeu;
-    static ProgressBar progressBar;
+    static ProgressBar progressBar_tmp;
     static int progressStatus = 60;
     static int return_stat = 60;
     static int block_tmp = 0;
 
-    /**
+/**
      * Called when the activity is first created.
-     */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        // initialise notre activity avec le constructeur parent
-        super.onCreate(savedInstanceState);
-        // charge le fichier main.xml comme vue de l'activit
-        setContentView(R.layout.main);
+  */
 
-        mjeu = (JeuView) findViewById(R.id.JeuView);
-        // rend visible la vue
-        mjeu.setVisibility(View.VISIBLE);
+public void setProgressBar_tmp(ProgressBar bar_tmp){
+    progressBar_tmp=bar_tmp;
+}
 
-        // recuperation de la vue une voie cree  partir de son id
-        progressBar = (ProgressBar) findViewById(R.id.pBAsync);
-        //textView = (TextView) findViewById(R.id.textView1);
-        // Start long running operation in a background thread
-
-
+    public void init(){
+        progressStatus = 60;
+        return_stat=60;
+        block_tmp=0;
     }
+
 
     public void launch() {
         // startProgress();
-        new Thread(new InitGame()).start();
+        new Thread(new Timer()).start();
     }
 
 
@@ -64,7 +57,7 @@ public class InitGame extends AppCompatActivity implements Runnable {
             }
             progressStatus -= 1;
             status_time_tempo(progressStatus);
-            progressBar.setProgress(progressStatus);
+            progressBar_tmp.setProgress(progressStatus);
         }
     }
 
@@ -78,6 +71,10 @@ public class InitGame extends AppCompatActivity implements Runnable {
         return return_stat;
     }
 
+    int getBlock_tmp(){
+        return block_tmp;
+    }
+
     public int block(int block) {
 
         if (block == 1) {
@@ -89,25 +86,5 @@ public class InitGame extends AppCompatActivity implements Runnable {
         return block_tmp;
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        block(1);
-        //  backgroundMusic.pause();
-        // mView.onPause();
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (block_tmp == 1) {
-            block(0);
-            launch();
-        }
-
-        // backgroundMusic.start();
-        // mView.onResume();
-
-    }
 }

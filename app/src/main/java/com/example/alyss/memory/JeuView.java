@@ -36,10 +36,9 @@ public class JeuView extends SurfaceView implements SurfaceHolder.Callback, Runn
     Initialisation init = new Initialisation();
     ArrayList liste = new ArrayList();
     ArrayList liste_memo = new ArrayList();
-    Time thread = new Time();
     ProgressBar mProgressBar;
     CountDownTimer mCountDownTimer;
-    InitGame stat = new InitGame();
+    Timer stat = new Timer();
 
         // Declaration des images
         private Bitmap 		vide;
@@ -92,6 +91,7 @@ public class JeuView extends SurfaceView implements SurfaceHolder.Callback, Runn
         private long duree = 30000;
         static int cpt_time=0;
         static int score=30;
+    static int cpt_thread=0;
 
 
         // constante modelisant les differentes types de cases
@@ -286,7 +286,7 @@ public class JeuView extends SurfaceView implements SurfaceHolder.Callback, Runn
     private void paintscore(Canvas canvas){
         Paint paint = new Paint();
         paint.setDither(true);
-        paint.setColor(Color.BLUE);
+        paint.setColor(Color.WHITE);
         paint.setStyle(Paint.Style.FILL);
 
         paint.setTextAlign(Paint.Align.CENTER);
@@ -397,6 +397,7 @@ public class JeuView extends SurfaceView implements SurfaceHolder.Callback, Runn
                 //paintscore(canvas);
                 paintwin(canvas);
                 paintscore_finale(canvas);
+                in = false ;
 
             } else if (score==0 || stat.status_time()<=0) {
                 paintcarte(canvas);
@@ -404,6 +405,7 @@ public class JeuView extends SurfaceView implements SurfaceHolder.Callback, Runn
                 paintlose(canvas);
 
                 lock=1;
+                in = false ;
             } else{
 
                     paintcarte(canvas);
@@ -422,12 +424,17 @@ public class JeuView extends SurfaceView implements SurfaceHolder.Callback, Runn
 
 
             }
+    public void setScore(){
+        score=30;
+    }
 
 
         // callback sur le cycle de vie de la surfaceview
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
             Log.i("-> FCT <-", "surfaceChanged " + width + " - " + height);
             initparameters();
+            cv_thread   = new Thread(this);
+            in = true;
         }
 
         public void surfaceCreated(SurfaceHolder arg0) {
@@ -437,6 +444,24 @@ public class JeuView extends SurfaceView implements SurfaceHolder.Callback, Runn
 
         public void surfaceDestroyed(SurfaceHolder arg0) {
             Log.i("-> FCT <-", "surfaceDestroyed");
+            cv_thread.interrupt();
+            //cv_thread.interrupt();
+            in = false ;
+            currentStepZone = 0;
+            currentStepZone2 = 0;
+            xCard = 0;
+            yCard = 0;
+            cpt_anime=0;
+            cpt_anime2=0;
+            cpt_anime3=0;
+            cpt_click=0;
+            cpt_next=0;
+            cpt_win=0;
+            carte_tmp=0;
+            lock=0;
+            lock2=0;
+          //  in = true;
+
         }
 
         /**

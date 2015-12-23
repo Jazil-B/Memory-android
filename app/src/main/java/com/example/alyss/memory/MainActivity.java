@@ -10,14 +10,16 @@ import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
 import android.widget.Button;
 import android.media.MediaPlayer;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
     public static SharedPreferences musicPref;
     public static SharedPreferences.Editor musicPrefEditor;
-    public static MediaPlayer backgroundMusic;
     public static String musicOnString = "musicOn";
+
+    static MediaPlayer backgroundMusic;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,7 +31,7 @@ public class MainActivity extends Activity {
         musicPrefEditor = musicPref.edit();
 
         if (backgroundMusic == null) backgroundMusic = MediaPlayer.create(this, R.raw.cadeau);
-        if (musicPref.getBoolean(musicOnString, false))
+        if (musicPref.getBoolean(musicOnString, true))
         {
             backgroundMusic.start();
             backgroundMusic.setLooping(true);
@@ -41,8 +43,9 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "1 min restant", Toast.LENGTH_SHORT).show();
-                Intent play = new Intent(MainActivity.this, InitGame.class);
+                Intent play = new Intent(MainActivity.this, LaunchGame.class);
                 startActivity(play);
+
             }
         });
 
@@ -78,15 +81,18 @@ public class MainActivity extends Activity {
 
     }
 
+
     @Override protected void onPause() {
         super.onPause();
         backgroundMusic.pause();
+
        // mView.onPause();
     }
 
     @Override protected void onResume() {
         super.onResume();
         backgroundMusic.start();
+
        // mView.onResume();
 
     }

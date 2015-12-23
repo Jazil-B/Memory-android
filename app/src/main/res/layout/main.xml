@@ -23,7 +23,7 @@
         android:layout_margin="10dp"
         android:progressBackgroundTint="#5cffffff"
         android:indeterminate="false"
-        android:progressTint="#4b6ad8" />
+        android:progressTint="#d4ddff" />
 
 
 
