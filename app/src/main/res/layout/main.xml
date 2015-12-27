@@ -25,6 +25,13 @@
         android:indeterminate="false"
         android:progressTint="#d4ddff" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_rejouer"
+        android:layout_gravity="center_horizontal|bottom"
+        android:background="@drawable/rejouer"
+        />
 
 
 

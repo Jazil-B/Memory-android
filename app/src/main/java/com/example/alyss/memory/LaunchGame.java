@@ -1,6 +1,7 @@
 package com.example.alyss.memory;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -41,6 +42,16 @@ public class LaunchGame extends Activity {
 
 
         time.setProgressBar_tmp(progressBar);
+
+        final Button rejouerButton = (Button) findViewById(R.id.button_rejouer);
+        rejouerButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent jeu = new Intent(LaunchGame.this, LaunchGame.class);
+                startActivity(jeu);
+            }
+        });
 
     }
 
