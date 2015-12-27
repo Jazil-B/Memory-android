@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.CountDownTimer;
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -32,6 +33,7 @@ public class JeuView extends SurfaceView implements SurfaceHolder.Callback, Runn
 
 
 
+   static ScoreActivity sc = new ScoreActivity();
 
     Initialisation init = new Initialisation();
     ArrayList liste = new ArrayList();
@@ -86,6 +88,7 @@ public class JeuView extends SurfaceView implements SurfaceHolder.Callback, Runn
         static int carte_tmp=0;
         static int lock=0;
         static int lock2=0;
+        static int score_fin=0;
 
 
         private long duree = 30000;
@@ -261,7 +264,8 @@ public class JeuView extends SurfaceView implements SurfaceHolder.Callback, Runn
         }
 
 
-    private void paintscore_finale(Canvas canvas){
+
+     void paintscore_finale(Canvas canvas){
 
         Paint paint = new Paint();
         paint.setDither(true);
@@ -269,9 +273,12 @@ public class JeuView extends SurfaceView implements SurfaceHolder.Callback, Runn
         paint.setStyle(Paint.Style.FILL);
 
         paint.setTextAlign(Paint.Align.CENTER);
+
+         score_final(stat.status_time(), score);
+
         if(getHeight()==2460) {
             paint.setTextSize(250);
-            canvas.drawText("Score : " + score_final(stat.status_time(), score), carteLeftAnchor + (3 * carteTileSize), carteTopAnchor + -1 * (2 * carteTileSize), paint);
+            canvas.drawText("Score : " + score_fin, carteLeftAnchor + (3 * carteTileSize), carteTopAnchor + -1 * (2 * carteTileSize), paint);
         }else if(getHeight()>=1800){
             paint.setTextSize(200);
             canvas.drawText("" + score, carteLeftAnchor + (11 * carteTileSize) / 4, carteTopAnchor + -1 * (3 * carteTileSize) / 2, paint);
@@ -281,6 +288,8 @@ public class JeuView extends SurfaceView implements SurfaceHolder.Callback, Runn
             canvas.drawText("" + score, carteLeftAnchor + (11 * carteTileSize) / 4, carteTopAnchor + -1 * (2 * carteTileSize) / 2, paint);
 
         }
+
+        sc.save();
     }
 
     private void paintscore(Canvas canvas){
@@ -314,8 +323,10 @@ public class JeuView extends SurfaceView implements SurfaceHolder.Callback, Runn
             }
         }
 
-    private int score_final(int temps,int nb_coups){
-        return temps * nb_coups;
+     int score_final(int temps,int nb_coups){
+
+        score_fin=temps * nb_coups;
+        return score_fin;
     }
 
        // dessin du gagne si gagne

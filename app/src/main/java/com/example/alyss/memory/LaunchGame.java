@@ -17,6 +17,7 @@ public class LaunchGame extends Activity {
     static JeuView mjeu;
     static ProgressBar progressBar;
     Timer time = new Timer();
+    MainActivity music = new MainActivity();
 
     /** Called when the activity is first created. */
     @Override
@@ -31,7 +32,6 @@ public class LaunchGame extends Activity {
         mjeu = (JeuView)findViewById(R.id.JeuView);
         // rend visible la vue
         mjeu.setVisibility(View.VISIBLE);
-
         time.init();
         mjeu.setScore();
         // recuperation de la vue une voie cree  partir de son id
@@ -51,6 +51,7 @@ public class LaunchGame extends Activity {
         time.block(1);
         //  backgroundMusic.pause();
         // mView.onPause();
+           MainActivity.backgroundMusic.pause();
 
     }
 
@@ -61,7 +62,9 @@ public class LaunchGame extends Activity {
             time.block(0);
             time.launch();
         }
-
+        if(SystemeActivity.music_active==1) {
+            MainActivity.backgroundMusic.start();
+        }
         // backgroundMusic.start();
         // mView.onResume();
 

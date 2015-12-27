@@ -10,4 +10,21 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
     }
+
+
+    @Override protected void onPause() {
+        super.onPause();
+        MainActivity.backgroundMusic.pause();
+
+        // mView.onPause();
+    }
+
+    @Override protected void onResume() {
+        super.onResume();
+        if(SystemeActivity.music_active==1) {
+            MainActivity.backgroundMusic.start();
+        }
+        // mView.onResume();
+
+    }
 }

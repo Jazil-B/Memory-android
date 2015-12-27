@@ -15,9 +15,9 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-    public static SharedPreferences musicPref;
-    public static SharedPreferences.Editor musicPrefEditor;
-    public static String musicOnString = "musicOn";
+    static SharedPreferences musicPref;
+    static SharedPreferences.Editor musicPrefEditor;
+    static String musicOnString = "musicOn";
 
     static MediaPlayer backgroundMusic;
 
@@ -27,15 +27,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        musicPref = getSharedPreferences("musicPref", MODE_PRIVATE);
-        musicPrefEditor = musicPref.edit();
+        Launch_musique();
 
-        if (backgroundMusic == null) backgroundMusic = MediaPlayer.create(this, R.raw.cadeau);
-        if (musicPref.getBoolean(musicOnString, true))
-        {
-            backgroundMusic.start();
-            backgroundMusic.setLooping(true);
-        }
 
         final Button jouerButton = (Button) findViewById(R.id.button_jouer);
         jouerButton.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +75,19 @@ public class MainActivity extends Activity {
     }
 
 
+    public void Launch_musique(){
+        musicPref = getSharedPreferences("musicPref", MODE_PRIVATE);
+        musicPrefEditor = musicPref.edit();
+
+        if (backgroundMusic == null) backgroundMusic = MediaPlayer.create(this, R.raw.cadeau);
+        if (musicPref.getBoolean(musicOnString, true))
+        {
+            SystemeActivity.music_active=1;
+            backgroundMusic.start();
+            backgroundMusic.setLooping(true);
+        }
+    }
+
     @Override protected void onPause() {
         super.onPause();
         backgroundMusic.pause();
@@ -91,8 +97,9 @@ public class MainActivity extends Activity {
 
     @Override protected void onResume() {
         super.onResume();
-        backgroundMusic.start();
-
+        if(SystemeActivity.music_active==1) {
+            backgroundMusic.start();
+        }
        // mView.onResume();
 
     }

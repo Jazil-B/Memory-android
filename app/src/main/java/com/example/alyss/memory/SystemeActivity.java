@@ -16,6 +16,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 public class SystemeActivity extends AppCompatActivity {
 
     private Switch switch_music;
+    static int music_active=0;
 
     //SharedPreferences musicPref = getSharedPreferences("musicPref", MODE_PRIVATE);
 
@@ -39,10 +40,12 @@ public class SystemeActivity extends AppCompatActivity {
                     MainActivity.backgroundMusic.setLooping(true);
                     MainActivity.musicPrefEditor.putBoolean(MainActivity.musicOnString, true);
                     MainActivity.musicPrefEditor.apply();
+                    music_active=1;
                 } else {
                     MainActivity.backgroundMusic.pause();
                     MainActivity.musicPrefEditor.putBoolean(MainActivity.musicOnString, false);
                     MainActivity.musicPrefEditor.apply();
+                    music_active=0;
 
                     //musicPref.getBoolean("musicOn", true);
                 }
@@ -60,4 +63,25 @@ public class SystemeActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    int getMusic_active(){
+       return music_active;
+    }
+    @Override protected void onPause() {
+        super.onPause();
+        MainActivity.backgroundMusic.pause();
+
+        // mView.onPause();
+    }
+
+    @Override protected void onResume() {
+        super.onResume();
+        if(music_active==1) {
+            MainActivity.backgroundMusic.start();
+        }
+        // mView.onResume();
+
+    }
+
 }

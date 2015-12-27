@@ -40,7 +40,7 @@ public class EndActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent jeu = new Intent(EndActivity.this, JeuView.class);
+                Intent jeu = new Intent(EndActivity.this, LaunchGame.class);
                 startActivity(jeu);
             }
         });
