@@ -24,9 +24,7 @@ public class ScoreActivity extends AppCompatActivity {
         txt = (TextView) findViewById(R.id.textView);
         loadSavedPreferences();
 
-        if( tmp== "0") {
-            setScorePref(JeuView.score_fin);
-        }
+
         txt.setText("Score\n" + loadSavedPreferences()+ "\n");
 
        // Log.d("Pref->", string_tmp);
@@ -49,25 +47,15 @@ public class ScoreActivity extends AppCompatActivity {
     }
 
 
-    void save(){
-        setScorePref(9);
-    }
-
-    void setScorePref(int score){
-
-        savePreferences("score", "" + score);
-
-        // Save the changes in SharedPreferences
-
-    }
-
-     void savePreferences(String key, String value) {
+ /*   void savePreferences(String key, String value) {
         SharedPreferences sharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(key, value);
         editor.commit();
     }
+*/
+
 
      String loadSavedPreferences() {
         SharedPreferences sharedPreferences = PreferenceManager

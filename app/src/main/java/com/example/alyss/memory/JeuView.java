@@ -83,12 +83,15 @@ public class JeuView extends SurfaceView implements SurfaceHolder.Callback, Runn
         static int cpt_anime2=0;
         static int cpt_anime3=0;
         static int cpt_click=0;
+        static int cpt_click2=0;
         static int cpt_next=0;
         static int cpt_win=0;
         static int carte_tmp=0;
         static int lock=0;
         static int lock2=0;
         static int score_fin=0;
+    static  int perdu = 0;
+    static  int gagner = 0;
 
 
         private long duree = 30000;
@@ -123,6 +126,15 @@ public class JeuView extends SurfaceView implements SurfaceHolder.Callback, Runn
                 {CST_vide, CST_zone, CST_zone,CST_zone,CST_zone}
         };
 
+    int [][] ref_init    = {
+
+            {CST_vide, CST_zone, CST_zone,CST_zone,CST_zone},
+            {CST_vide, CST_zone, CST_zone,CST_zone,CST_zone},
+            {CST_vide, CST_zone, CST_zone,CST_zone,CST_zone},
+            {CST_vide, CST_zone, CST_zone,CST_zone,CST_zone},
+            {CST_vide, CST_zone, CST_zone,CST_zone,CST_zone}
+    };
+
     int [][] ref2    = {
 
             {CST_vide, CST_zone, CST_zone,CST_zone,CST_zone},
@@ -132,6 +144,15 @@ public class JeuView extends SurfaceView implements SurfaceHolder.Callback, Runn
             {CST_vide, CST_zone, CST_zone,CST_zone,CST_zone}
     };
 
+
+    int [][] card_init    = {
+
+            {-1, 0, 0,0,0},
+            {-1, 0, 0,0,0},
+            {-1, 0, 0,0,0},
+            {-1, 0, 0,0,0},
+            {-1, 0, 0,0,0}
+    };
 
     int [][] card    = {
 
@@ -204,7 +225,7 @@ public class JeuView extends SurfaceView implements SurfaceHolder.Callback, Runn
             card_vache= BitmapFactory.decodeResource(mRes, R.drawable.vache);
 
             vide 		= BitmapFactory.decodeResource(mRes, R.mipmap.vide);
-            fond=BitmapFactory.decodeResource(mRes, R.drawable.fondjeu);
+            fond        = BitmapFactory.decodeResource(mRes, R.drawable.fondjeu);
             win 		= BitmapFactory.decodeResource(mRes, R.drawable.win);
             lose 		= BitmapFactory.decodeResource(mRes, R.drawable.lose);
             // initialisation des parmametres du jeu
@@ -219,7 +240,7 @@ public class JeuView extends SurfaceView implements SurfaceHolder.Callback, Runn
         }
 
         // chargement du niveau a partir du tableau de reference du niveau
-        private void loadlevel() {
+        public void loadlevel() {
             ref[0][0]=CST_vide;
             for (int i=0; i< carteHeight; i++) {
                 for (int j=0; j< carteWidth; j++) {
@@ -228,18 +249,67 @@ public class JeuView extends SurfaceView implements SurfaceHolder.Callback, Runn
             }
         }
 
+    public void reloadcarte() {
+        ref[0][0]=CST_vide;
+        for (int i=1; i< carteHeight; i++) {
+            for (int j=0; j< carteWidth; j++) {
+                carte[j][i]= CST_zone;
+                ref[j][i]= CST_zone;
+                card[j][i]=0;
+            }
+        }
+    }
+
+
+        public void map_alea(){
+        liste = init.init();
+        int cpt=0;
+        for(int i=0;i<taille;i++) {
+            for (int j = 1; j < taille; j++) {
+
+                ref2[i][j]=(int)liste.get(cpt);
+                cpt++;
+            }
+        }
+    }
+
+
+    public void reload (){
+
+        stat.block(2);
+    //    stat.block(0);
+        currentStepZone = 0;
+        currentStepZone2 = 0;
+        xCard = 0;
+        yCard = 0;
+        cpt_anime=0;
+        cpt_anime2=0;
+        cpt_anime3=0;
+        cpt_click2=1;
+        cpt_click=0;
+        cpt_next=0;
+        cpt_win=0;
+        carte_tmp=0;
+        lock=0;
+        lock2=0;
+      /*  ref=ref_init;
+        card=card_init;*/
+        map_alea();
+        //loadlevel();
+        reloadcarte();
+        setScore();
+        if(perdu==1){
+            cpt_click=0;
+            cpt_click2=0;
+
+        }
+
+    }
+
         // initialisation du jeu
         public void initparameters() {
             mProgressBar = (ProgressBar) findViewById(R.id.pBAsync);
-            liste = init.init();
-            int cpt=0;
-            for(int i=0;i<taille;i++) {
-                for (int j = 1; j < taille; j++) {
-
-                    ref2[i][j]=(int)liste.get(cpt);
-                    cpt++;
-                }
-            }
+           map_alea();
 
             paint = new Paint();
             paint.setColor(0xff0000);
@@ -289,7 +359,7 @@ public class JeuView extends SurfaceView implements SurfaceHolder.Callback, Runn
 
         }
 
-        sc.save();
+        //sc.save();
     }
 
     private void paintscore(Canvas canvas){
@@ -409,6 +479,7 @@ public class JeuView extends SurfaceView implements SurfaceHolder.Callback, Runn
                 paintwin(canvas);
                 paintscore_finale(canvas);
                 in = false ;
+                gagner=1;
 
             } else if (score==0 || stat.status_time()<=0) {
                 paintcarte(canvas);
@@ -416,7 +487,8 @@ public class JeuView extends SurfaceView implements SurfaceHolder.Callback, Runn
                 paintlose(canvas);
 
                 lock=1;
-                in = false ;
+               // in = false ;
+                perdu=1;
             } else{
 
                     paintcarte(canvas);
@@ -435,8 +507,15 @@ public class JeuView extends SurfaceView implements SurfaceHolder.Callback, Runn
 
 
             }
-    public void setScore(){
+        public void setScore(){
         score=30;
+    }
+
+    public void stopThread(){
+        cv_thread.interrupt();
+        in = false ;
+
+
     }
 
 
@@ -456,7 +535,7 @@ public class JeuView extends SurfaceView implements SurfaceHolder.Callback, Runn
         public void surfaceDestroyed(SurfaceHolder arg0) {
             Log.i("-> FCT <-", "surfaceDestroyed");
             cv_thread.interrupt();
-            //cv_thread.interrupt();
+            cv_thread.interrupt();
             in = false ;
             currentStepZone = 0;
             currentStepZone2 = 0;
@@ -604,7 +683,12 @@ public class JeuView extends SurfaceView implements SurfaceHolder.Callback, Runn
                            liste_memo.add(i);
                            liste_memo.add(ref2[j][i]);
                            if(cpt_click==1){
-                            stat.launch();
+                               if(cpt_click2==1){
+                                   stat.block(0);
+                                   cpt_click2=0;
+                               }else {
+                                   stat.launch();
+                               }
                            }
                        }
 

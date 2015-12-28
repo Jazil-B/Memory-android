@@ -38,6 +38,10 @@ public void setProgressBar_tmp(ProgressBar bar_tmp){
     }
 
 
+    public void destroy(){
+
+    }
+
     public void run() {
 
         while (progressStatus > 0) {
@@ -47,17 +51,22 @@ public void setProgressBar_tmp(ProgressBar bar_tmp){
 
             //textView.setText(progressStatus+"/"+progressBar.getMax());
 
-            if (block_tmp == 1) {
-                break;
-            }
+
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            progressStatus -= 1;
-            status_time_tempo(progressStatus);
+            if (block_tmp == 0) {
+
+                progressStatus -= 1;
+                status_time_tempo(progressStatus);
+            }else if(block_tmp==1){
+                break;
+
+            }
             progressBar_tmp.setProgress(progressStatus);
+
         }
     }
 
@@ -77,10 +86,7 @@ public void setProgressBar_tmp(ProgressBar bar_tmp){
 
     public int block(int block) {
 
-        if (block == 1) {
-            block_tmp = 1;
-            return block_tmp;
-        }
+
         block_tmp = block;
 
         return block_tmp;

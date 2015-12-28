@@ -2,7 +2,9 @@ package com.example.alyss.memory;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +21,7 @@ public class LaunchGame extends Activity {
     static ProgressBar progressBar;
     Timer time = new Timer();
     MainActivity music = new MainActivity();
+    PreferenceScore sc  = new PreferenceScore();
 
     /** Called when the activity is first created. */
     @Override
@@ -48,8 +51,17 @@ public class LaunchGame extends Activity {
 
             @Override
             public void onClick(View v) {
-                Intent jeu = new Intent(LaunchGame.this, LaunchGame.class);
-                startActivity(jeu);
+             /*   Intent jeu = new Intent(LaunchGame.this, LaunchGame.class);
+                startActivity(jeu);*/
+
+                if(JeuView.gagner==1 && Integer.parseInt(loadSavedPreferences())<JeuView.score_fin){
+                 savePreferences("score", "" + JeuView.score_fin);
+
+                }
+
+                time.init();
+                mjeu.reload();
+
             }
         });
 
@@ -78,6 +90,25 @@ public class LaunchGame extends Activity {
         }
         // backgroundMusic.start();
         // mView.onResume();
+
+    }
+
+    void savePreferences(String key, String value) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(key, value);
+        editor.commit();
+    }
+
+    String loadSavedPreferences() {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(this);
+
+       String tmp = sharedPreferences.getString("score", "" + JeuView.score_fin);
+
+        return tmp;
+        // txt.setText("Score\n" + string_tmp + "\n");
 
     }
 
